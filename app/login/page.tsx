@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -51,9 +51,10 @@ export default function LoginPage() {
       .maybeSingle();
 
     setLoading(false);
-    if (profile?.role === "profesional") {
+    const role = (profile as { role?: string } | null)?.role;
+    if (role === "profesional") {
       router.push(redirect && redirect.startsWith("/profesional") ? redirect : "/profesional/dashboard");
-    } else if (profile?.role === "paciente") {
+    } else if (role === "paciente") {
       router.push(redirect && redirect.startsWith("/paciente") ? redirect : "/paciente/dashboard");
     } else {
       router.push(redirect || "/");
@@ -114,5 +115,13 @@ export default function LoginPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Cargando…</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }

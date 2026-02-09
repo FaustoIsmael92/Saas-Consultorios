@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { generarSlugCandidato } from "@/lib/utils/slug";
 import type { UserRole } from "@/types/auth";
 
 export default function RegistroPage() {
@@ -26,7 +25,14 @@ export default function RegistroPage() {
     const { data: authData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: undefined },
+      options: {
+        emailRedirectTo: undefined,
+        data: {
+          role,
+          full_name: fullName.trim() || null,
+          ...(role === "profesional" && { especialidad: especialidad.trim() || null }),
+        },
+      },
     });
 
     if (signUpError) {
@@ -42,55 +48,8 @@ export default function RegistroPage() {
       return;
     }
 
-    const { error: profileError } = await supabase.from("profiles").insert({
-      user_id: user.id,
-      role,
-      full_name: fullName.trim() || null,
-    });
-
-    if (profileError) {
-      setError(profileError.message);
-      setLoading(false);
-      return;
-    }
-
-    if (role === "profesional") {
-      let slug = generarSlugCandidato(fullName.trim() || "profesional");
-      let intentos = 0;
-      const maxIntentos = 10;
-      while (intentos < maxIntentos) {
-        const { error: profError } = await supabase.from("profesionales").insert({
-          user_id: user.id,
-          nombre: fullName.trim() || null,
-          especialidad: especialidad.trim() || null,
-          slug,
-        });
-        if (!profError) break;
-        if (profError.code === "23505") {
-          slug = generarSlugCandidato(fullName.trim() || "profesional");
-          intentos++;
-        } else {
-          setError(profError.message);
-          setLoading(false);
-          return;
-        }
-      }
-      if (intentos >= maxIntentos) {
-        setError("No se pudo generar un slug único. Intenta de nuevo.");
-        setLoading(false);
-        return;
-      }
-    } else {
-      const { error: pacError } = await supabase.from("pacientes").insert({
-        user_id: user.id,
-        nombre: fullName.trim() || null,
-      });
-      if (pacError) {
-        setError(pacError.message);
-        setLoading(false);
-        return;
-      }
-    }
+    // Perfil, paciente y profesional se crean automáticamente por trigger
+    await new Promise((r) => setTimeout(r, 500));
 
     setLoading(false);
     if (role === "profesional") {

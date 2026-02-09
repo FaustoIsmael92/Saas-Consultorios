@@ -5,21 +5,27 @@ import {
   esRutaPaciente,
   rutaParaRol,
 } from "@/lib/auth/guards";
+import { isValidRole } from "@/lib/auth/roles";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   let response = NextResponse.next({ request });
 
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    console.error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    return NextResponse.next({ request });
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: object }[]) {
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );
@@ -39,7 +45,7 @@ export async function middleware(request: NextRequest) {
       .eq("user_id", user.id)
       .is("deleted_at", null)
       .maybeSingle();
-    role = profile?.role ?? null;
+    role = (profile as { role?: string } | null)?.role ?? null;
   }
 
   // Rutas públicas: cualquiera puede pasar
@@ -64,7 +70,8 @@ export async function middleware(request: NextRequest) {
   // Protección por rol: profesional solo en /profesional/*
   if (esRutaProfesional(pathname)) {
     if (role !== "profesional") {
-      return NextResponse.redirect(new URL(rutaParaRol(role), request.url));
+      const redirectUrl = isValidRole(role) ? rutaParaRol(role) : "/login";
+      return NextResponse.redirect(new URL(redirectUrl, request.url));
     }
     return response;
   }
@@ -72,7 +79,8 @@ export async function middleware(request: NextRequest) {
   // Protección por rol: paciente solo en /paciente/*
   if (esRutaPaciente(pathname)) {
     if (role !== "paciente") {
-      return NextResponse.redirect(new URL(rutaParaRol(role), request.url));
+      const redirectUrl = isValidRole(role) ? rutaParaRol(role) : "/login";
+      return NextResponse.redirect(new URL(redirectUrl, request.url));
     }
     return response;
   }

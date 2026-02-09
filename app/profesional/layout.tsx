@@ -30,6 +30,18 @@ export default async function LayoutProfesional({
             Panel profesional
           </Link>
           <nav className="flex items-center gap-4">
+            <Link
+              href="/profesional/disponibilidad"
+              className="text-sm underline hover:no-underline"
+            >
+              Disponibilidad
+            </Link>
+            <Link
+              href="/profesional/calendario"
+              className="text-sm underline hover:no-underline"
+            >
+              Calendario
+            </Link>
             <span className="text-sm text-[var(--foreground)]/70">
               {profile?.full_name ?? "Profesional"}
             </span>

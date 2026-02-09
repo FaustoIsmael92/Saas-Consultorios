@@ -30,6 +30,12 @@ export default async function LayoutPaciente({
             Panel paciente
           </Link>
           <nav className="flex items-center gap-4">
+            <Link
+              href="/paciente/citas"
+              className="text-sm underline hover:no-underline"
+            >
+              Mis citas
+            </Link>
             <span className="text-sm text-[var(--foreground)]/70">
               {profile?.full_name ?? "Paciente"}
             </span>

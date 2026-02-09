@@ -47,6 +47,7 @@ export interface Database {
           slug: string;
           telefono: string | null;
           activo: boolean;
+          timezone: string | null;
           created_at: string;
           updated_at: string;
           deleted_at: string | null;
@@ -100,6 +101,111 @@ export interface Database {
           user_id?: string;
           nombre?: string | null;
           telefono?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      disponibilidad: {
+        Row: {
+          id: string;
+          profesional_id: string;
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fin: string;
+          duracion_cita_min: number;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          profesional_id: string;
+          dia_semana: number;
+          hora_inicio: string;
+          hora_fin: string;
+          duracion_cita_min?: number;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          profesional_id?: string;
+          dia_semana?: number;
+          hora_inicio?: string;
+          hora_fin?: string;
+          duracion_cita_min?: number;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      bloqueos_agenda: {
+        Row: {
+          id: string;
+          profesional_id: string;
+          fecha_inicio: string;
+          fecha_fin: string;
+          motivo: string | null;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          profesional_id: string;
+          fecha_inicio: string;
+          fecha_fin: string;
+          motivo?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          profesional_id?: string;
+          fecha_inicio?: string;
+          fecha_fin?: string;
+          motivo?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      citas: {
+        Row: {
+          id: string;
+          profesional_id: string;
+          paciente_id: string;
+          inicio: string;
+          fin: string;
+          estado: "programada" | "cancelada" | "completada";
+          origen: "formulario" | "chat";
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          profesional_id: string;
+          paciente_id: string;
+          inicio: string;
+          fin: string;
+          estado?: "programada" | "cancelada" | "completada";
+          origen?: "formulario" | "chat";
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          profesional_id?: string;
+          paciente_id?: string;
+          inicio?: string;
+          fin?: string;
+          estado?: "programada" | "cancelada" | "completada";
+          origen?: "formulario" | "chat";
           created_at?: string;
           updated_at?: string;
           deleted_at?: string | null;

@@ -18,6 +18,7 @@ export interface Profesional {
   slug: string;
   telefono: string | null;
   activo: boolean;
+  timezone?: string | null;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;
