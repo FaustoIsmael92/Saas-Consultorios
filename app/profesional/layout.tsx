@@ -42,6 +42,12 @@ export default async function LayoutProfesional({
             >
               Calendario
             </Link>
+            <Link
+              href="/profesional/chats"
+              className="text-sm underline hover:no-underline"
+            >
+              Chats
+            </Link>
             <span className="text-sm text-[var(--foreground)]/70">
               {profile?.full_name ?? "Profesional"}
             </span>

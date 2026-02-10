@@ -14,7 +14,9 @@ export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    console.error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY");
+    console.error(
+      "[middleware] Missing Supabase config: NEXT_PUBLIC_SUPABASE_URL y/o NEXT_PUBLIC_SUPABASE_ANON_KEY deben estar definidas."
+    );
     return NextResponse.next({ request });
   }
 

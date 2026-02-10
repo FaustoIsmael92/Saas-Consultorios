@@ -211,6 +211,96 @@ export interface Database {
           deleted_at?: string | null;
         };
       };
+      suscripciones: {
+        Row: {
+          id: string;
+          profesional_id: string;
+          estado: "activa" | "inactiva";
+          plan: "mensual" | "anual";
+          fecha_inicio: string;
+          fecha_fin: string;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          profesional_id: string;
+          estado: "activa" | "inactiva";
+          plan: "mensual" | "anual";
+          fecha_inicio: string;
+          fecha_fin: string;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          profesional_id?: string;
+          estado?: "activa" | "inactiva";
+          plan?: "mensual" | "anual";
+          fecha_inicio?: string;
+          fecha_fin?: string;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      chats: {
+        Row: {
+          id: string;
+          profesional_id: string;
+          paciente_id: string;
+          activo: boolean;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          profesional_id: string;
+          paciente_id: string;
+          activo?: boolean;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          profesional_id?: string;
+          paciente_id?: string;
+          activo?: boolean;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      mensajes_chat: {
+        Row: {
+          id: string;
+          chat_id: string;
+          emisor: "paciente" | "sistema" | "profesional";
+          mensaje: string;
+          created_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          chat_id: string;
+          emisor: "paciente" | "sistema" | "profesional";
+          mensaje: string;
+          created_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          chat_id?: string;
+          emisor?: "paciente" | "sistema" | "profesional";
+          mensaje?: string;
+          created_at?: string;
+          deleted_at?: string | null;
+        };
+      };
     };
   };
 }

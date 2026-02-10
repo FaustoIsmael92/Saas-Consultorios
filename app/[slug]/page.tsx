@@ -10,6 +10,7 @@ import {
   type ProfesionalPublico,
 } from "@/lib/agenda/public";
 import { createCita } from "@/lib/agenda/citas";
+import { tieneSuscripcionActiva } from "@/lib/suscripcion";
 import { SLUGS_RESERVADOS } from "@/lib/auth/guards";
 import { useAuth } from "@/hooks/useAuth";
 import { usePaciente } from "@/hooks/usePaciente";
@@ -36,6 +37,7 @@ export default function EnlacePublicoPage() {
   const [enviando, setEnviando] = useState(false);
   const [mensajeError, setMensajeError] = useState<string | null>(null);
   const [citaCreada, setCitaCreada] = useState<{ inicio: string; fin: string } | null>(null);
+  const [chatDisponible, setChatDisponible] = useState(false);
 
   // Redirigir slugs reservados
   useEffect(() => {
@@ -65,6 +67,8 @@ export default function EnlacePublicoPage() {
         }
         setProfesional(p);
         setEstado("listo");
+        const activa = await tieneSuscripcionActiva(supabase, p.id);
+        if (!cancelled) setChatDisponible(activa);
       } catch {
         if (!cancelled) setEstado("no-encontrado");
       }
@@ -202,6 +206,16 @@ export default function EnlacePublicoPage() {
             <p className="mt-1 text-[var(--foreground)]/70">{profesional.especialidad}</p>
           )}
           <p className="mt-2 text-sm text-[var(--foreground)]/60">Agenda tu cita</p>
+          {isPaciente && chatDisponible && (
+            <p className="mt-2">
+              <Link
+                href={`/${slug}/chat`}
+                className="text-sm font-medium text-[var(--foreground)] underline hover:no-underline"
+              >
+                Agendar por chat asistido
+              </Link>
+            </p>
+          )}
         </header>
 
         {!isPaciente && (
