@@ -52,12 +52,14 @@ function LoginForm() {
 
     setLoading(false);
     const role = (profile as { role?: string } | null)?.role;
-    if (role === "profesional") {
-      router.push(redirect && redirect.startsWith("/profesional") ? redirect : "/profesional/dashboard");
+    if (redirect) {
+      router.push(redirect);
+    } else if (role === "profesional") {
+      router.push("/profesional/dashboard");
     } else if (role === "paciente") {
-      router.push(redirect && redirect.startsWith("/paciente") ? redirect : "/paciente/dashboard");
+      router.push("/paciente/dashboard");
     } else {
-      router.push(redirect || "/");
+      router.push("/");
     }
   }
 

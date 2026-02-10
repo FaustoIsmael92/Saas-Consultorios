@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { UserRole } from "@/types/auth";
 
-export default function RegistroPage() {
+function RegistroForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect");
+  const roleParam = searchParams.get("role");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -14,7 +19,19 @@ export default function RegistroPage() {
   const [especialidad, setEspecialidad] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+
+  const redirect =
+    redirectParam &&
+    redirectParam.startsWith("/") &&
+    !redirectParam.startsWith("//") &&
+    !redirectParam.includes(":")
+      ? redirectParam
+      : undefined;
+
+  useEffect(() => {
+    if (roleParam === "paciente") setRole("paciente");
+    else if (roleParam === "profesional") setRole("profesional");
+  }, [roleParam]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -52,7 +69,9 @@ export default function RegistroPage() {
     await new Promise((r) => setTimeout(r, 500));
 
     setLoading(false);
-    if (role === "profesional") {
+    if (redirect) {
+      router.push(redirect);
+    } else if (role === "profesional") {
       router.push("/profesional/dashboard");
     } else {
       router.push("/paciente/dashboard");
@@ -161,11 +180,28 @@ export default function RegistroPage() {
         </form>
         <p className="mt-4 text-center text-sm text-[var(--foreground)]/70">
           ¿Ya tienes cuenta?{" "}
-          <Link href="/login" className="underline hover:no-underline">
+          <Link
+            href={redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login"}
+            className="underline hover:no-underline"
+          >
             Inicia sesión
           </Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function RegistroPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
+          Cargando…
+        </div>
+      }
+    >
+      <RegistroForm />
+    </Suspense>
   );
 }

@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import {
   esRutaPublica,
+  esRutaEnlacePublico,
   esRutaProfesional,
   esRutaPaciente,
   rutaParaRol,
@@ -34,6 +35,11 @@ export async function middleware(request: NextRequest) {
     }
   );
 
+  // Permitir que /logout llegue al route handler (POST hace signOut y redirige)
+  if (pathname === "/logout") {
+    return response;
+  }
+
   let role: string | null = null;
   const {
     data: { user },
@@ -50,7 +56,11 @@ export async function middleware(request: NextRequest) {
 
   // Rutas públicas: cualquiera puede pasar
   if (esRutaPublica(pathname)) {
-    // Si ya está logueado, redirigir al dashboard según rol
+    // Enlace público del profesional: no redirigir (paciente puede agendar)
+    if (esRutaEnlacePublico(pathname)) {
+      return response;
+    }
+    // Otras rutas públicas: si ya está logueado, redirigir al dashboard
     if (role === "profesional") {
       return NextResponse.redirect(new URL("/profesional/dashboard", request.url));
     }
