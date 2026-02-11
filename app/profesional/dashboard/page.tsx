@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { EnlacePublicoCard } from "./EnlacePublicoCard";
+import { EstadoSuscripcionCard } from "./EstadoSuscripcionCard";
 
 export default function DashboardProfesionalPage() {
   return (
@@ -9,6 +10,7 @@ export default function DashboardProfesionalPage() {
         Bienvenido al panel del profesional. Gestiona tu disponibilidad, bloqueos
         y citas desde el menú.
       </p>
+      <EstadoSuscripcionCard className="my-6" />
       <EnlacePublicoCard className="my-6" />
       <ul className="mt-4 list-inside list-disc text-sm text-[var(--foreground)]/70">
         <li>

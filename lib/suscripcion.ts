@@ -1,4 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/lib/supabase/types";
+
+export type SuscripcionRow = Database["public"]["Tables"]["suscripciones"]["Row"];
 
 /**
  * Comprueba si el profesional tiene una suscripción activa (chat habilitado).
@@ -22,4 +25,23 @@ export async function tieneSuscripcionActiva(
 
   if (error) throw error;
   return !!data;
+}
+
+/**
+ * Obtiene la suscripción del profesional (relación 1:1).
+ * Usado en el panel del profesional para mostrar estado.
+ */
+export async function getSuscripcionByProfesional(
+  supabase: SupabaseClient,
+  profesionalId: string
+): Promise<SuscripcionRow | null> {
+  const { data, error } = await supabase
+    .from("suscripciones")
+    .select("*")
+    .eq("profesional_id", profesionalId)
+    .is("deleted_at", null)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data as SuscripcionRow | null;
 }

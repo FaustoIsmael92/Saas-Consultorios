@@ -1,23 +1,41 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { useUser } from "@/hooks/useUser";
+import { useAuth } from "@/hooks/useAuth";
 import { useProfesional } from "@/hooks/useProfesional";
+import { tieneSuscripcionActiva } from "@/lib/suscripcion";
 import { getChatsByProfesional, getMensajes, subscribeMensajes } from "@/lib/chat/chatService";
 import type { ChatConDetalles } from "@/types/chat";
 import type { MensajeChat } from "@/types/chat";
 
 export default function ChatsProfesionalPage() {
-  const { user } = useUser();
+  const { user } = useAuth();
   const { profesional, loading: loadingProf } = useProfesional(user?.id);
   const supabase = useMemo(() => createClient(), []);
 
+  const [suscripcionActiva, setSuscripcionActiva] = useState<boolean | null>(null);
   const [chats, setChats] = useState<ChatConDetalles[]>([]);
   const [loading, setLoading] = useState(true);
   const [chatSeleccionado, setChatSeleccionado] = useState<ChatConDetalles | null>(null);
   const [mensajes, setMensajes] = useState<MensajeChat[]>([]);
   const [loadingMensajes, setLoadingMensajes] = useState(false);
+
+  useEffect(() => {
+    if (!profesional) return;
+    let cancelled = false;
+    tieneSuscripcionActiva(supabase, profesional.id)
+      .then((activa) => {
+        if (!cancelled) setSuscripcionActiva(activa);
+      })
+      .catch(() => {
+        if (!cancelled) setSuscripcionActiva(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [profesional, supabase]);
 
   const cargarChats = useCallback(async () => {
     if (!profesional) return;
@@ -33,8 +51,8 @@ export default function ChatsProfesionalPage() {
   }, [profesional, supabase]);
 
   useEffect(() => {
-    cargarChats();
-  }, [cargarChats]);
+    if (suscripcionActiva === true) cargarChats();
+  }, [suscripcionActiva, cargarChats]);
 
   const cargarMensajes = useCallback(
     async (chatId: string) => {
@@ -78,11 +96,43 @@ export default function ChatsProfesionalPage() {
     );
   }
 
+  if (suscripcionActiva === false) {
+    return (
+      <div>
+        <h1 className="mb-4 text-2xl font-semibold">Chats</h1>
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-6 text-center">
+          <p className="mb-2 font-medium text-[var(--foreground)]">
+            Chat asistido no disponible
+          </p>
+          <p className="mb-4 text-sm text-[var(--foreground)]/70">
+            Tu suscripción está inactiva. El chat asistido se habilita solo con suscripción activa.
+            Puedes seguir viendo tus citas y tu agenda. Contacta al administrador para activar la
+            suscripción.
+          </p>
+          <Link
+            href="/profesional/dashboard"
+            className="inline-block rounded bg-[var(--foreground)] px-4 py-2 text-sm text-[var(--background)] hover:opacity-90"
+          >
+            Ir al dashboard
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (suscripcionActiva === null) {
+    return (
+      <div className="flex min-h-[200px] items-center justify-center">
+        <p className="text-[var(--foreground)]/60">Comprobando suscripción…</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1 className="mb-4 text-2xl font-semibold">Chats</h1>
       <p className="mb-6 text-sm text-[var(--foreground)]/70">
-        Conversaciones con pacientes para gestión de citas. Solo visible con suscripción activa.
+        Conversaciones con pacientes para gestión de citas.
       </p>
 
       <div className="grid gap-6 md:grid-cols-[280px_1fr]">
