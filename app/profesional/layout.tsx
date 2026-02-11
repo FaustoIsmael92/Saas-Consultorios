@@ -48,6 +48,12 @@ export default async function LayoutProfesional({
             >
               Chats
             </Link>
+            <Link
+              href="/profesional/metricas"
+              className="text-sm underline hover:no-underline"
+            >
+              Métricas
+            </Link>
             <span className="text-sm text-[var(--foreground)]/70">
               {profile?.full_name ?? "Profesional"}
             </span>

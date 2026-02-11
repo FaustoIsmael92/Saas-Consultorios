@@ -301,6 +301,70 @@ export interface Database {
           deleted_at?: string | null;
         };
       };
+      notificaciones: {
+        Row: {
+          id: string;
+          user_id: string;
+          profesional_id: string | null;
+          paciente_id: string | null;
+          tipo: string;
+          contenido: string;
+          leida: boolean;
+          created_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          profesional_id?: string | null;
+          paciente_id?: string | null;
+          tipo: string;
+          contenido: string;
+          leida?: boolean;
+          created_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          profesional_id?: string | null;
+          paciente_id?: string | null;
+          tipo?: string;
+          contenido?: string;
+          leida?: boolean;
+          created_at?: string;
+          deleted_at?: string | null;
+        };
+      };
+      eventos_sistema: {
+        Row: {
+          id: string;
+          evento: "cita_creada_formulario" | "cita_creada_chat" | "suscripcion_activada" | "cita_cancelada";
+          profesional_id: string | null;
+          entidad_tipo: string | null;
+          entidad_id: string | null;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          evento: "cita_creada_formulario" | "cita_creada_chat" | "suscripcion_activada" | "cita_cancelada";
+          profesional_id?: string | null;
+          entidad_tipo?: string | null;
+          entidad_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          evento?: "cita_creada_formulario" | "cita_creada_chat" | "suscripcion_activada" | "cita_cancelada";
+          profesional_id?: string | null;
+          entidad_tipo?: string | null;
+          entidad_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+      };
     };
   };
 }

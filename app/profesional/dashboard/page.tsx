@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { EnlacePublicoCard } from "./EnlacePublicoCard";
 import { EstadoSuscripcionCard } from "./EstadoSuscripcionCard";
+import { NotificacionesCard } from "./NotificacionesCard";
 
 export default function DashboardProfesionalPage() {
   return (
@@ -10,6 +11,7 @@ export default function DashboardProfesionalPage() {
         Bienvenido al panel del profesional. Gestiona tu disponibilidad, bloqueos
         y citas desde el menú.
       </p>
+      <NotificacionesCard className="my-6" />
       <EstadoSuscripcionCard className="my-6" />
       <EnlacePublicoCard className="my-6" />
       <ul className="mt-4 list-inside list-disc text-sm text-[var(--foreground)]/70">
@@ -24,6 +26,12 @@ export default function DashboardProfesionalPage() {
             Calendario
           </Link>
           – Visualiza y crea citas
+        </li>
+        <li>
+          <Link href="/profesional/metricas" className="underline">
+            Métricas
+          </Link>
+          – Citas por formulario/chat y uso
         </li>
       </ul>
     </div>
