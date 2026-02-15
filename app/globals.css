@@ -8,3 +8,49 @@
 body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+/* Gradientes circulares animados del hero */
+@keyframes blob-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(15%, -20%) scale(1.05); }
+  50% { transform: translate(-10%, 10%) scale(0.95); }
+  75% { transform: translate(20%, 15%) scale(1.02); }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-25%, 15%) scale(1.08); }
+  66% { transform: translate(15%, -25%) scale(0.92); }
+}
+
+@keyframes blob-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20%, -15%) scale(1.1); }
+}
+
+@keyframes blob-float-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(10%, 25%) scale(0.9); }
+  75% { transform: translate(-15%, -10%) scale(1.06); }
+}
+
+/* Features: aparición escalonada */
+@keyframes fade-up-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-blob-1 { animation: blob-float-1 22s ease-in-out infinite; }
+.animate-blob-2 { animation: blob-float-2 26s ease-in-out infinite; }
+.animate-blob-3 { animation: blob-float-3 20s ease-in-out infinite; }
+.animate-blob-4 { animation: blob-float-4 24s ease-in-out infinite; }
+
+.animate-fade-up-in {
+  animation: fade-up-in 0.6s ease-out forwards;
+}
