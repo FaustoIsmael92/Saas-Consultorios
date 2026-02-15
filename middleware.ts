@@ -5,7 +5,8 @@ import {
   esRutaPaciente,
   rutaParaRol,
 } from "@/lib/auth/guards";
-import { createServerClient } from "@supabase/ssr";
+import { isValidRole } from "@/lib/auth/roles";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
@@ -19,7 +20,7 @@ export async function middleware(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: Array<{ name: string; value: string; options: CookieOptions }>) {
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );
@@ -64,7 +65,8 @@ export async function middleware(request: NextRequest) {
   // Protección por rol: profesional solo en /profesional/*
   if (esRutaProfesional(pathname)) {
     if (role !== "profesional") {
-      return NextResponse.redirect(new URL(rutaParaRol(role), request.url));
+      const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
+      return NextResponse.redirect(new URL(redirectPath, request.url));
     }
     return response;
   }
@@ -72,7 +74,8 @@ export async function middleware(request: NextRequest) {
   // Protección por rol: paciente solo en /paciente/*
   if (esRutaPaciente(pathname)) {
     if (role !== "paciente") {
-      return NextResponse.redirect(new URL(rutaParaRol(role), request.url));
+      const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
+      return NextResponse.redirect(new URL(redirectPath, request.url));
     }
     return response;
   }
