@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { UserRole } from "@/types/auth";
 
+const inputClass =
+  "w-full rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-zinc-100 placeholder-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500";
+
 function RegistroForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -65,26 +68,29 @@ function RegistroForm() {
       return;
     }
 
-    // Perfil, paciente y profesional se crean automáticamente por trigger
     await new Promise((r) => setTimeout(r, 500));
 
     setLoading(false);
-    if (redirect) {
-      router.push(redirect);
-    } else if (role === "profesional") {
-      router.push("/profesional/dashboard");
-    } else {
-      router.push("/paciente/dashboard");
-    }
+    if (redirect) router.push(redirect);
+    else if (role === "profesional") router.push("/profesional/dashboard");
+    else router.push("/paciente/dashboard");
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--background)] px-4 py-8">
-      <div className="w-full max-w-sm rounded-lg border border-[var(--foreground)]/10 bg-[var(--background)] p-6 shadow-sm">
-        <h1 className="mb-6 text-xl font-semibold">Crear cuenta</h1>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black px-4 py-8">
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-900/20 via-transparent to-blue-900/20" />
+      <div className="absolute right-0 top-1/4 h-96 w-96 rounded-full bg-orange-500/10 blur-3xl" />
+      <div className="absolute bottom-1/4 left-0 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl" />
+
+      <div className="relative w-full max-w-sm rounded-xl border border-slate-600/40 bg-slate-800/95 p-6 shadow-2xl shadow-black/50 backdrop-blur-sm">
+        <p className="mb-1 text-center text-xs font-medium uppercase tracking-wider text-zinc-500">
+          Crear cuenta
+        </p>
+        <h1 className="mb-6 text-center text-xl font-semibold text-zinc-100">Regístrate</h1>
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="fullName" className="mb-1 block text-sm font-medium">
+            <label htmlFor="fullName" className="mb-1 block text-sm text-zinc-400">
               Nombre completo
             </label>
             <input
@@ -93,11 +99,11 @@ function RegistroForm() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               autoComplete="name"
-              className="w-full rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/30"
+              className={inputClass}
             />
           </div>
           <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium">
+            <label htmlFor="email" className="mb-1 block text-sm text-zinc-400">
               Email
             </label>
             <input
@@ -107,11 +113,11 @@ function RegistroForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/30"
+              className={inputClass}
             />
           </div>
           <div>
-            <label htmlFor="password" className="mb-1 block text-sm font-medium">
+            <label htmlFor="password" className="mb-1 block text-sm text-zinc-400">
               Contraseña
             </label>
             <input
@@ -122,29 +128,31 @@ function RegistroForm() {
               required
               minLength={6}
               autoComplete="new-password"
-              className="w-full rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/30"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-medium">Registrarme como</label>
+            <label className="mb-2 block text-sm text-zinc-400">Registrarme como</label>
             <div className="flex gap-4">
-              <label className="flex items-center gap-2">
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
                 <input
                   type="radio"
                   name="role"
                   value="paciente"
                   checked={role === "paciente"}
                   onChange={() => setRole("paciente")}
+                  className="rounded border-slate-600 bg-slate-900 text-blue-600 focus:ring-blue-500"
                 />
                 Paciente
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
                 <input
                   type="radio"
                   name="role"
                   value="profesional"
                   checked={role === "profesional"}
                   onChange={() => setRole("profesional")}
+                  className="rounded border-slate-600 bg-slate-900 text-blue-600 focus:ring-blue-500"
                 />
                 Profesional
               </label>
@@ -152,7 +160,7 @@ function RegistroForm() {
           </div>
           {role === "profesional" && (
             <div>
-              <label htmlFor="especialidad" className="mb-1 block text-sm font-medium">
+              <label htmlFor="especialidad" className="mb-1 block text-sm text-zinc-400">
                 Especialidad (opcional)
               </label>
               <input
@@ -161,28 +169,29 @@ function RegistroForm() {
                 value={especialidad}
                 onChange={(e) => setEspecialidad(e.target.value)}
                 placeholder="Ej. Medicina general"
-                className="w-full rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/30"
+                className={inputClass}
               />
             </div>
           )}
           {error && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="text-sm text-red-400" role="alert">
               {error}
             </p>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-[var(--foreground)] py-2 text-[var(--background)] transition hover:opacity-90 disabled:opacity-50"
+            className="w-full rounded-xl bg-blue-600 py-2.5 text-sm font-medium text-white shadow-lg transition hover:bg-blue-500 hover:opacity-90 disabled:opacity-50"
           >
             {loading ? "Creando cuenta…" : "Registrarme"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm text-[var(--foreground)]/70">
+
+        <p className="mt-4 text-center text-sm text-zinc-500">
           ¿Ya tienes cuenta?{" "}
           <Link
             href={redirect ? `/login?redirect=${encodeURIComponent(redirect)}` : "/login"}
-            className="underline hover:no-underline"
+            className="text-blue-500 hover:text-blue-400 hover:underline"
           >
             Inicia sesión
           </Link>
@@ -196,7 +205,7 @@ export default function RegistroPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
+        <div className="flex min-h-screen items-center justify-center bg-black text-zinc-500">
           Cargando…
         </div>
       }

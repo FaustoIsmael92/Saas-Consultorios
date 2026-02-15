@@ -25,19 +25,19 @@ export function EnlacePublicoCard({ className = "" }: EnlacePublicoCardProps) {
 
   return (
     <div
-      className={`rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4 ${className}`}
+      className={`rounded-xl border border-slate-600/40 bg-slate-800/80 p-4 shadow-lg shadow-black/20 ${className}`}
     >
-      <h2 className="mb-2 text-sm font-medium text-[var(--foreground)]/80">
+      <h2 className="mb-2 text-sm font-medium text-zinc-400">
         Tu enlace público para que los pacientes agenden
       </h2>
       <div className="flex flex-wrap items-center gap-2">
-        <code className="flex-1 break-all rounded bg-[var(--background)] px-2 py-1 text-sm">
+        <code className="flex-1 break-all rounded-md bg-slate-900/80 px-2 py-1 text-sm text-zinc-100">
           {url}
         </code>
         <button
           type="button"
           onClick={copiar}
-          className="rounded border border-[var(--foreground)]/30 px-3 py-1 text-sm hover:bg-[var(--foreground)]/10"
+          className="rounded-xl border border-slate-600 bg-zinc-600 px-3 py-1 text-sm text-white hover:bg-zinc-500"
         >
           Copiar
         </button>

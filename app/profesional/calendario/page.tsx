@@ -123,14 +123,14 @@ export default function CalendarioPage() {
   if (loading || !profesional) {
     return (
       <div className="py-8">
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-semibold">Calendario</h1>
+      <h1 className="mb-6 text-2xl font-semibold text-zinc-100">Calendario</h1>
 
       <div className="mb-4 flex items-center gap-4">
         <div className="flex gap-2">
@@ -140,8 +140,8 @@ export default function CalendarioPage() {
               onClick={() => setVista(v)}
               className={`rounded px-3 py-1 text-sm ${
                 vista === v
-                  ? "bg-[var(--foreground)] text-[var(--background)]"
-                  : "border border-[var(--foreground)]/20"
+                  ? "bg-blue-600 text-white"
+                  : "border border-slate-600"
               }`}
             >
               {v === "dia" ? "Día" : v === "semana" ? "Semana" : "Mes"}
@@ -151,11 +151,11 @@ export default function CalendarioPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => navegar(-1)}
-            className="rounded border border-[var(--foreground)]/20 px-3 py-1"
+            className="rounded border border-slate-600 px-3 py-1"
           >
             ←
           </button>
-          <span className="min-w-[180px] text-center font-medium">
+          <span className="min-w-[180px] text-center font-medium text-zinc-100">
             {vista === "dia"
               ? fechaBase.toLocaleDateString("es-ES", {
                   weekday: "long",
@@ -179,14 +179,14 @@ export default function CalendarioPage() {
           </span>
           <button
             onClick={() => navegar(1)}
-            className="rounded border border-[var(--foreground)]/20 px-3 py-1"
+            className="rounded border border-slate-600 px-3 py-1"
           >
             →
           </button>
         </div>
         <button
           onClick={() => setFechaBase(new Date())}
-          className="text-sm underline"
+          className="text-sm text-blue-500 hover:text-blue-400 hover:underline"
         >
           Hoy
         </button>
@@ -211,7 +211,7 @@ export default function CalendarioPage() {
 
       <button
         onClick={() => handleAbrirModalNuevaCita()}
-        className="mt-4 rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)]"
+        className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500"
       >
         Nueva cita
       </button>
@@ -257,17 +257,17 @@ function VistaSemanal({
   const horas = Array.from({ length: 14 }, (_, i) => i + 7);
 
   return (
-    <div className="overflow-x-auto rounded border border-[var(--foreground)]/10">
+    <div className="overflow-x-auto rounded border border-slate-600/40">
       <table className="w-full min-w-[600px] border-collapse">
         <thead>
           <tr>
-            <th className="w-16 border-b border-r border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-2 text-left text-sm">
+            <th className="w-16 border-b border-r border-slate-600/40 bg-slate-800/80 p-2 text-left text-sm">
               Hora
             </th>
             {dias.map((d) => (
               <th
                 key={d.toISOString()}
-                className="border-b border-r border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-2 text-center text-sm last:border-r-0"
+                className="border-b border-r border-slate-600/40 bg-slate-800/80 p-2 text-center text-sm last:border-r-0"
               >
                 {d.toLocaleDateString("es-ES", {
                   weekday: "short",
@@ -280,7 +280,7 @@ function VistaSemanal({
         <tbody>
           {horas.map((h) => (
             <tr key={h}>
-              <td className="border-b border-r border-[var(--foreground)]/10 p-1 text-xs">
+              <td className="border-b border-r border-slate-600/40 p-1 text-xs">
                 {String(h).padStart(2, "0")}:00
               </td>
               {dias.map((d) => {
@@ -345,7 +345,7 @@ function CeldaDiaSemana({
   });
 
   return (
-    <td className="relative border-b border-r border-[var(--foreground)]/10 p-0 align-top last:border-r-0">
+    <td className="relative border-b border-r border-slate-600/40 p-0 align-top last:border-r-0">
       <div className="min-h-[48px] p-1">
         {citasEnCelda.map((c) => (
           <div
@@ -364,7 +364,7 @@ function CeldaDiaSemana({
             {c.estado === "programada" && (
               <button
                 onClick={() => onCancelar(c.id)}
-                className="ml-1 text-red-600 underline"
+                className="ml-1 text-red-400 underline"
               >
                 Cancelar
               </button>
@@ -378,7 +378,7 @@ function CeldaDiaSemana({
             <button
               key={s.inicio}
               onClick={() => onSlotClick(s.inicio, s.fin, fechaStr)}
-              className="mb-1 block w-full rounded border border-dashed border-[var(--foreground)]/30 px-2 py-1 text-left text-xs hover:bg-[var(--foreground)]/5"
+              className="mb-1 block w-full rounded border border-dashed border-slate-500 px-2 py-1 text-left text-xs hover:bg-slate-800/80"
             >
               {inicioDate.toLocaleTimeString("es-ES", {
                 hour: "2-digit",
@@ -389,7 +389,7 @@ function CeldaDiaSemana({
           );
         })}
         {slotsEnCelda.length > 2 && (
-          <span className="text-xs text-[var(--foreground)]/60">
+          <span className="text-xs text-zinc-500">
             +{slotsEnCelda.length - 2} más
           </span>
         )}
@@ -428,14 +428,14 @@ function VistaMensual({
   }
 
   return (
-    <div className="overflow-x-auto rounded border border-[var(--foreground)]/10">
+    <div className="overflow-x-auto rounded border border-slate-600/40">
       <table className="w-full min-w-[500px] border-collapse">
         <thead>
           <tr>
             {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((d) => (
               <th
                 key={d}
-                className="border-b border-r border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-2 text-center text-sm"
+                className="border-b border-r border-slate-600/40 bg-slate-800/80 p-2 text-center text-sm"
               >
                 {d}
               </th>
@@ -446,7 +446,7 @@ function VistaMensual({
           {chunks.map((fila, i) => (
             <tr key={i}>
               {fila.map((d, j) => {
-                if (!d) return <td key={j} className="border border-[var(--foreground)]/10 p-2" />;
+                if (!d) return <td key={j} className="border border-slate-600/40 p-2" />;
                 const fechaStr = formatDate(d);
                 const citasDia = citas.filter(
                   (c) => formatDate(new Date(c.inicio)) === fechaStr
@@ -454,7 +454,7 @@ function VistaMensual({
                 return (
                   <td
                     key={j}
-                    className="min-h-[80px] border border-[var(--foreground)]/10 p-2 align-top"
+                    className="min-h-[80px] border border-slate-600/40 p-2 align-top"
                   >
                     <div className="text-sm font-medium">{d.getDate()}</div>
                     <div className="mt-1 space-y-1">
@@ -471,7 +471,7 @@ function VistaMensual({
                           {c.estado === "programada" && (
                             <button
                               onClick={() => onCancelar(c.id)}
-                              className="ml-1 text-red-600"
+                              className="ml-1 text-red-400"
                             >
                               ✕
                             </button>
@@ -541,25 +541,25 @@ function ModalNuevaCita({
       onClick={onCerrar}
     >
       <div
-        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-lg bg-[var(--background)] p-6 shadow-lg"
+        className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-xl border border-slate-600/40 bg-slate-800 p-6 shadow-2xl shadow-black/50"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="mb-4 text-lg font-semibold">Nueva cita</h3>
+        <h3 className="mb-4 text-lg font-semibold text-zinc-100">Nueva cita</h3>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm">Fecha</label>
+            <label className="mb-2 block text-sm text-zinc-400">Fecha</label>
             <input
               type="date"
               value={fecha}
               onChange={(e) => setFecha(e.target.value)}
-              className="w-full rounded border border-[var(--foreground)]/20 px-3 py-2"
+              className="w-full rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-zinc-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm">Horario</label>
-            <div className="max-h-32 overflow-y-auto rounded border border-[var(--foreground)]/20 p-2">
+            <label className="mb-2 block text-sm text-zinc-400">Horario</label>
+            <div className="max-h-32 overflow-y-auto rounded-md border border-slate-600 bg-slate-900/50 p-2">
               {slots.length === 0 ? (
-                <p className="text-sm text-[var(--foreground)]/60">Sin slots disponibles</p>
+                <p className="text-sm text-zinc-500">Sin slots disponibles</p>
               ) : (
                 <div className="grid grid-cols-3 gap-1">
                   {slots.map((s) => (
@@ -567,10 +567,10 @@ function ModalNuevaCita({
                       key={s.inicio}
                       type="button"
                       onClick={() => setSelectedSlot(s)}
-                      className={`rounded px-2 py-1 text-sm ${
+                      className={`rounded px-2 py-1 text-sm text-zinc-100 ${
                         selectedSlot?.inicio === s.inicio
-                          ? "bg-[var(--foreground)] text-[var(--background)]"
-                          : "hover:bg-[var(--foreground)]/10"
+                          ? "bg-blue-600 text-white"
+                          : "hover:bg-slate-700"
                       }`}
                     >
                       {new Date(s.inicio).toLocaleTimeString("es-ES", {
@@ -584,12 +584,12 @@ function ModalNuevaCita({
             </div>
           </div>
           <div>
-            <label className="mb-2 block text-sm">Paciente</label>
+            <label className="mb-2 block text-sm text-zinc-400">Paciente</label>
             <select
               value={pacienteId}
               onChange={(e) => setPacienteId(e.target.value)}
               required
-              className="w-full rounded border border-[var(--foreground)]/20 px-3 py-2"
+              className="w-full rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-zinc-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Seleccionar…</option>
               {pacientes.map((p) => (
@@ -600,13 +600,13 @@ function ModalNuevaCita({
             </select>
           </div>
           <div className="flex justify-end gap-2">
-            <button type="button" onClick={onCerrar} className="rounded border px-4 py-2">
+            <button type="button" onClick={onCerrar} className="rounded-xl border border-slate-600 bg-zinc-600 px-4 py-2 text-white hover:bg-zinc-500">
               Cancelar
             </button>
             <button
               type="submit"
               disabled={loading || slots.length === 0}
-              className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] disabled:opacity-50"
+              className="rounded-xl bg-blue-600 px-4 py-2 text-white disabled:opacity-50 hover:bg-blue-500"
             >
               {loading ? "Creando…" : "Crear cita"}
             </button>

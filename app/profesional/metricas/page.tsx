@@ -41,8 +41,8 @@ export default function MetricasPage() {
   if (loadingProf || (loading && !metricas)) {
     return (
       <div>
-        <h1 className="mb-4 text-2xl font-semibold">Métricas</h1>
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+        <h1 className="mb-4 text-2xl font-semibold text-zinc-100">Métricas</h1>
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
@@ -50,8 +50,8 @@ export default function MetricasPage() {
   if (error) {
     return (
       <div>
-        <h1 className="mb-4 text-2xl font-semibold">Métricas</h1>
-        <p className="text-red-600 dark:text-red-400">{error}</p>
+        <h1 className="mb-4 text-2xl font-semibold text-zinc-100">Métricas</h1>
+        <p className="text-red-400">{error}</p>
       </div>
     );
   }
@@ -59,8 +59,8 @@ export default function MetricasPage() {
   if (!profesional) {
     return (
       <div>
-        <h1 className="mb-4 text-2xl font-semibold">Métricas</h1>
-        <p className="text-[var(--foreground)]/70">No se encontró el profesional.</p>
+        <h1 className="mb-4 text-2xl font-semibold text-zinc-100">Métricas</h1>
+        <p className="text-zinc-500">No se encontró el profesional.</p>
       </div>
     );
   }
@@ -77,48 +77,48 @@ export default function MetricasPage() {
 
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-semibold">Métricas</h1>
-      <p className="mb-6 text-[var(--foreground)]/80">
+      <h1 className="mb-4 text-2xl font-semibold text-zinc-100">Métricas</h1>
+      <p className="mb-6 text-zinc-400">
         Resumen de uso del sistema. Los datos se registran automáticamente.
       </p>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-          <p className="text-sm text-[var(--foreground)]/60">Citas por formulario</p>
-          <p className="mt-1 text-2xl font-semibold">{m.citasFormulario}</p>
+        <div className="rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+          <p className="text-sm text-zinc-500">Citas por formulario</p>
+          <p className="mt-1 text-2xl font-semibold text-zinc-100">{m.citasFormulario}</p>
         </div>
-        <div className="rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-          <p className="text-sm text-[var(--foreground)]/60">Citas por chat</p>
-          <p className="mt-1 text-2xl font-semibold">{m.citasChat}</p>
+        <div className="rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+          <p className="text-sm text-zinc-500">Citas por chat</p>
+          <p className="mt-1 text-2xl font-semibold text-zinc-100">{m.citasChat}</p>
         </div>
-        <div className="rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-          <p className="text-sm text-[var(--foreground)]/60">Total citas creadas</p>
-          <p className="mt-1 text-2xl font-semibold">{totalCitasCreadas}</p>
+        <div className="rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+          <p className="text-sm text-zinc-500">Total citas creadas</p>
+          <p className="mt-1 text-2xl font-semibold text-zinc-100">{totalCitasCreadas}</p>
         </div>
-        <div className="rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-          <p className="text-sm text-[var(--foreground)]/60">Citas canceladas</p>
-          <p className="mt-1 text-2xl font-semibold">{m.citasCanceladas}</p>
+        <div className="rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+          <p className="text-sm text-zinc-500">Citas canceladas</p>
+          <p className="mt-1 text-2xl font-semibold text-zinc-100">{m.citasCanceladas}</p>
         </div>
       </div>
 
-      <div className="mt-6 rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-        <p className="text-sm text-[var(--foreground)]/60">Suscripción</p>
+      <div className="mt-6 rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+        <p className="text-sm text-zinc-500">Suscripción</p>
         <p className="mt-1 font-medium">
           {m.tieneSuscripcionActiva ? (
-            <span className="text-green-600 dark:text-green-400">Activa</span>
+            <span className="text-green-400">Activa</span>
           ) : (
-            <span className="text-amber-600 dark:text-amber-400">Inactiva</span>
+            <span className="text-amber-400">Inactiva</span>
           )}
         </p>
-        <p className="mt-1 text-sm text-[var(--foreground)]/70">
+        <p className="mt-1 text-sm text-zinc-500">
           Eventos de activación registrados: {m.suscripcionesActivadas}
         </p>
       </div>
 
       {totalCitasCreadas > 0 && (
-        <div className="mt-6 rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4">
-          <p className="text-sm text-[var(--foreground)]/60">Origen de citas</p>
-          <p className="mt-1 text-sm text-[var(--foreground)]/80">
+        <div className="mt-6 rounded-xl border border-slate-600/40 bg-slate-800/80 shadow-lg shadow-black/20 p-4">
+          <p className="text-sm text-zinc-500">Origen de citas</p>
+          <p className="mt-1 text-sm text-zinc-400">
             Formulario: {m.citasFormulario} ({((m.citasFormulario / totalCitasCreadas) * 100).toFixed(0)}%)
             — Chat: {m.citasChat} ({((m.citasChat / totalCitasCreadas) * 100).toFixed(0)}%)
           </p>

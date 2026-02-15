@@ -90,24 +90,27 @@ export default function DisponibilidadPage() {
   if (loading || !profesional) {
     return (
       <div className="py-8">
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
 
+  const inputSelectClass =
+    "rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-zinc-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500";
+
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-semibold">Disponibilidad</h1>
+      <h1 className="mb-6 text-2xl font-semibold text-zinc-100">Disponibilidad</h1>
 
       <section className="mb-10">
-        <h2 className="mb-4 text-lg font-medium">Horarios por día</h2>
+        <h2 className="mb-4 text-lg font-medium text-zinc-100">Horarios por día</h2>
         <form onSubmit={handleAddDisponibilidad} className="mb-4 flex flex-wrap gap-4">
           <div>
-            <label className="mb-1 block text-sm">Día</label>
+            <label className="mb-1 block text-sm text-zinc-400">Día</label>
             <select
               value={nuevoDia}
               onChange={(e) => setNuevoDia(Number(e.target.value))}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             >
               {DIAS_SEMANA.map((d, i) => (
                 <option key={i} value={i}>
@@ -117,29 +120,29 @@ export default function DisponibilidadPage() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-sm">De</label>
+            <label className="mb-1 block text-sm text-zinc-400">De</label>
             <input
               type="time"
               value={nuevaHoraInicio}
               onChange={(e) => setNuevaHoraInicio(e.target.value)}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm">A</label>
+            <label className="mb-1 block text-sm text-zinc-400">A</label>
             <input
               type="time"
               value={nuevaHoraFin}
               onChange={(e) => setNuevaHoraFin(e.target.value)}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm">Duración cita (min)</label>
+            <label className="mb-1 block text-sm text-zinc-400">Duración cita (min)</label>
             <select
               value={nuevaDuracion}
               onChange={(e) => setNuevaDuracion(Number(e.target.value))}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             >
               <option value={15}>15</option>
               <option value={30}>30</option>
@@ -150,7 +153,7 @@ export default function DisponibilidadPage() {
           <div className="flex items-end">
             <button
               type="submit"
-              className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+              className="rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
             >
               Añadir
             </button>
@@ -161,16 +164,16 @@ export default function DisponibilidadPage() {
           {disponibilidad.map((d) => (
             <li
               key={d.id}
-              className="flex items-center justify-between rounded border border-[var(--foreground)]/10 px-4 py-2"
+              className="flex items-center justify-between rounded-xl border border-slate-600/40 bg-slate-800/80 px-4 py-2"
             >
-              <span>
+              <span className="text-zinc-100">
                 {DIAS_SEMANA[d.dia_semana]} {d.hora_inicio.slice(0, 5)} –{" "}
                 {d.hora_fin.slice(0, 5)} ({d.duracion_cita_min} min)
               </span>
               <button
                 type="button"
                 onClick={() => removeDisponibilidad(d.id)}
-                className="text-sm text-red-600 underline hover:no-underline"
+                className="text-sm text-red-400 hover:underline"
               >
                 Eliminar
               </button>
@@ -180,40 +183,40 @@ export default function DisponibilidadPage() {
       </section>
 
       <section>
-        <h2 className="mb-4 text-lg font-medium">Bloqueos de agenda</h2>
+        <h2 className="mb-4 text-lg font-medium text-zinc-100">Bloqueos de agenda</h2>
         <form onSubmit={handleAddBloqueo} className="mb-4 flex flex-wrap gap-4">
           <div>
-            <label className="mb-1 block text-sm">Desde</label>
+            <label className="mb-1 block text-sm text-zinc-400">Desde</label>
             <input
               type="date"
               value={bloqueoDesde}
               onChange={(e) => setBloqueoDesde(e.target.value)}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm">Hasta</label>
+            <label className="mb-1 block text-sm text-zinc-400">Hasta</label>
             <input
               type="date"
               value={bloqueoHasta}
               onChange={(e) => setBloqueoHasta(e.target.value)}
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             />
           </div>
           <div>
-            <label className="mb-1 block text-sm">Motivo (opcional)</label>
+            <label className="mb-1 block text-sm text-zinc-400">Motivo (opcional)</label>
             <input
               type="text"
               value={bloqueoMotivo}
               onChange={(e) => setBloqueoMotivo(e.target.value)}
               placeholder="Vacaciones, etc."
-              className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2"
+              className={inputSelectClass}
             />
           </div>
           <div className="flex items-end">
             <button
               type="submit"
-              className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+              className="rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
             >
               Bloquear
             </button>
@@ -224,9 +227,9 @@ export default function DisponibilidadPage() {
           {bloqueos.map((b) => (
             <li
               key={b.id}
-              className="flex items-center justify-between rounded border border-[var(--foreground)]/10 px-4 py-2"
+              className="flex items-center justify-between rounded-xl border border-slate-600/40 bg-slate-800/80 px-4 py-2"
             >
-              <span>
+              <span className="text-zinc-100">
                 {new Date(b.fecha_inicio).toLocaleDateString()} –{" "}
                 {new Date(b.fecha_fin).toLocaleDateString()}
                 {b.motivo && ` (${b.motivo})`}
@@ -234,7 +237,7 @@ export default function DisponibilidadPage() {
               <button
                 type="button"
                 onClick={() => removeBloqueo(b.id)}
-                className="text-sm text-red-600 underline hover:no-underline"
+                className="text-sm text-red-400 hover:underline"
               >
                 Eliminar
               </button>
@@ -244,7 +247,7 @@ export default function DisponibilidadPage() {
       </section>
 
       {error && (
-        <p className="mt-4 text-sm text-red-600" role="alert">
+        <p className="mt-4 text-sm text-red-400" role="alert">
           {error}
         </p>
       )}

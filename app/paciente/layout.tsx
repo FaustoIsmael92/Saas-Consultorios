@@ -23,26 +23,26 @@ export default async function LayoutPaciente({
   if (profile?.role !== "paciente") redirect("/profesional/dashboard");
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <header className="border-b border-[var(--foreground)]/10">
+    <div className="min-h-screen bg-black text-zinc-100">
+      <header className="border-b border-slate-600/40">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
-          <Link href="/paciente/dashboard" className="font-medium">
+          <Link href="/paciente/dashboard" className="font-medium text-zinc-100">
             Panel paciente
           </Link>
           <nav className="flex items-center gap-4">
             <Link
               href="/paciente/citas"
-              className="text-sm underline hover:no-underline"
+              className="text-sm text-blue-500 hover:text-blue-400 hover:underline"
             >
               Mis citas
             </Link>
-            <span className="text-sm text-[var(--foreground)]/70">
+            <span className="text-sm text-zinc-400">
               {profile?.full_name ?? "Paciente"}
             </span>
             <form action="/logout" method="post">
               <button
                 type="submit"
-                className="text-sm underline hover:no-underline"
+                className="text-sm text-zinc-400 hover:text-zinc-300 hover:underline"
               >
                 Cerrar sesión
               </button>

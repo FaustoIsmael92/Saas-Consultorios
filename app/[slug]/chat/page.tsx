@@ -108,22 +108,22 @@ export default function ChatAsistidoPage() {
 
   if (estado === "cargando" || (estado === "listo" && !chatId)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--background)] px-4">
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+      <div className="flex min-h-screen items-center justify-center bg-black px-4">
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
 
   if (estado === "no-encontrado") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[var(--background)] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-4">
         <h1 className="text-xl font-semibold">Enlace no encontrado</h1>
-        <p className="text-center text-[var(--foreground)]/70">
+        <p className="text-center text-zinc-500">
           El enlace del profesional no existe o no está disponible.
         </p>
         <Link
           href="/"
-          className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+          className="rounded rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
         >
           Ir al inicio
         </Link>
@@ -133,15 +133,15 @@ export default function ChatAsistidoPage() {
 
   if (estado === "sin-suscripcion" && profesional) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[var(--background)] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-4">
         <h1 className="text-xl font-semibold">Chat no disponible</h1>
-        <p className="text-center text-[var(--foreground)]/70">
+        <p className="text-center text-zinc-500">
           El chat asistido solo está disponible para profesionales con suscripción activa.
           {profesional.nombre && ` (${profesional.nombre})`}
         </p>
         <Link
           href={`/${slug}`}
-          className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+          className="rounded rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
         >
           Agendar por formulario
         </Link>
@@ -152,21 +152,21 @@ export default function ChatAsistidoPage() {
   if (!paciente && !loadingPaciente) {
     const redirectUrl = `/${slug}/chat`;
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[var(--background)] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-4">
         <h1 className="text-xl font-semibold">Inicia sesión como paciente</h1>
-        <p className="text-center text-[var(--foreground)]/70">
+        <p className="text-center text-zinc-500">
           Para usar el chat necesitas una cuenta de paciente.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
           <Link
             href={`/registro?redirect=${encodeURIComponent(redirectUrl)}&role=paciente`}
-            className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+            className="rounded rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
           >
             Registrarme
           </Link>
           <Link
             href={`/login?redirect=${encodeURIComponent(redirectUrl)}`}
-            className="rounded border border-[var(--foreground)]/30 px-4 py-2 hover:bg-[var(--foreground)]/10"
+            className="rounded rounded-xl border border-slate-600 px-4 py-2 text-zinc-100 hover:bg-slate-800"
           >
             Ya tengo cuenta
           </Link>
@@ -178,20 +178,20 @@ export default function ChatAsistidoPage() {
   if (!profesional || !paciente) return null;
 
   return (
-    <div className="min-h-screen bg-[var(--background)] px-4 py-8">
+    <div className="min-h-screen bg-black px-4 py-8">
       <div className="mx-auto max-w-lg">
         <header className="mb-4 flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-[var(--foreground)]">
+            <h1 className="text-xl font-semibold text-zinc-100">
               Chat con {profesional.nombre ?? "el profesional"}
             </h1>
             {profesional.especialidad && (
-              <p className="text-sm text-[var(--foreground)]/70">{profesional.especialidad}</p>
+              <p className="text-sm text-zinc-500">{profesional.especialidad}</p>
             )}
           </div>
           <Link
             href={`/${slug}`}
-            className="text-sm underline hover:no-underline text-[var(--foreground)]/70"
+            className="text-sm text-blue-500 hover:text-blue-400 hover:underline"
           >
             Volver al formulario
           </Link>

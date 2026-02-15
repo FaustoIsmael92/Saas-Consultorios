@@ -46,19 +46,19 @@ export function ChatWindow({
 
   if (loading) {
     return (
-      <div className="flex min-h-[320px] items-center justify-center rounded-lg border border-[var(--foreground)]/10 bg-[var(--background)] p-4">
-        <p className="text-sm text-[var(--foreground)]/60">Cargando conversación…</p>
+      <div className="flex min-h-[320px] items-center justify-center rounded-lg border border-slate-600/40 bg-slate-800/80 p-4">
+        <p className="text-sm text-zinc-500">Cargando conversación…</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col rounded-lg border border-[var(--foreground)]/10 bg-[var(--background)]">
-      <div className="border-b border-[var(--foreground)]/10 px-4 py-2">
-        <p className="text-sm font-medium text-[var(--foreground)]">
+    <div className="flex flex-col rounded-lg border border-slate-600/40 bg-slate-800/80">
+      <div className="border-b border-slate-600/40 px-4 py-2">
+        <p className="text-sm font-medium text-zinc-100">
           Chat con {profesionalNombre ?? "el profesional"}
         </p>
-        <p className="text-xs text-[var(--foreground)]/60">Solo para agendar citas</p>
+        <p className="text-xs text-zinc-500">Solo para agendar citas</p>
       </div>
 
       <div className="flex max-h-[360px] min-h-[240px] flex-1 flex-col overflow-y-auto p-4">
@@ -68,7 +68,7 @@ export function ChatWindow({
               type="button"
               onClick={onIniciarFlujo}
               disabled={enviando}
-              className="rounded bg-[var(--foreground)] px-4 py-2 text-sm text-[var(--background)] hover:opacity-90 disabled:opacity-50"
+              className="rounded-xl bg-blue-600 px-4 py-2 text-sm text-white hover:opacity-90 disabled:opacity-50"
             >
               Iniciar conversación para agendar
             </button>
@@ -83,14 +83,14 @@ export function ChatWindow({
             <div
               className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
                 m.emisor === "paciente"
-                  ? "bg-[var(--foreground)]/10 text-[var(--foreground)]"
+                  ? "bg-slate-600/50 text-zinc-100"
                   : m.emisor === "sistema"
-                    ? "bg-[var(--foreground)]/5 text-[var(--foreground)]/90"
-                    : "bg-[var(--foreground)]/5 text-[var(--foreground)]"
+                    ? "bg-slate-700/50 text-zinc-200"
+                    : "bg-slate-700/50 text-zinc-100"
               }`}
             >
               {m.emisor === "sistema" && (
-                <span className="mr-1 text-xs text-[var(--foreground)]/60">Asistente:</span>
+                <span className="mr-1 text-xs text-zinc-500">Asistente:</span>
               )}
               {m.mensaje.startsWith("FECHA:") ? (
                 <span>Fecha elegida: {m.mensaje.replace("FECHA:", "").trim()}</span>
@@ -107,18 +107,18 @@ export function ChatWindow({
 
         {paso === "inicio" && mensajes.length > 0 && (
           <div className="mt-2 space-y-2">
-            <p className="text-xs text-[var(--foreground)]/70">Elige una fecha:</p>
+            <p className="text-xs text-zinc-400">Elige una fecha:</p>
             <form onSubmit={handleSubmitFecha} className="flex flex-wrap items-center gap-2">
               <input
                 type="date"
                 name="fecha"
                 min={fechaMin}
-                className="rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-sm"
+                className="rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-sm text-zinc-100 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="submit"
                 disabled={enviando}
-                className="rounded bg-[var(--foreground)] px-4 py-2 text-sm text-[var(--background)] hover:opacity-90 disabled:opacity-50"
+                className="rounded-xl bg-blue-600 px-4 py-2 text-sm text-white hover:opacity-90 disabled:opacity-50"
               >
                 {enviando ? "Enviando…" : "Ver horarios"}
               </button>
@@ -129,10 +129,10 @@ export function ChatWindow({
         {paso === "mostrar_slots" && (
           <div className="mt-2 space-y-2">
             {loadingSlots ? (
-              <p className="text-sm text-[var(--foreground)]/60">Cargando horarios…</p>
+              <p className="text-sm text-zinc-500">Cargando horarios…</p>
             ) : (
               <>
-                <p className="text-xs text-[var(--foreground)]/70">Elige un horario:</p>
+                <p className="text-xs text-zinc-400">Elige un horario:</p>
                 <ul className="flex flex-wrap gap-2">
                   {slots.map((s) => (
                     <li key={s.inicio}>
@@ -140,7 +140,7 @@ export function ChatWindow({
                         type="button"
                         onClick={() => onEnviarSlot(s)}
                         disabled={enviando}
-                        className="rounded border border-[var(--foreground)]/20 px-3 py-2 text-sm hover:bg-[var(--foreground)]/10 disabled:opacity-50"
+                        className="rounded-md border border-slate-600 px-3 py-2 text-sm text-zinc-100 hover:bg-slate-700 disabled:opacity-50"
                       >
                         {formatTime(new Date(s.inicio))}
                       </button>
@@ -154,7 +154,7 @@ export function ChatWindow({
 
         {paso === "confirmar_slot" && slotElegido && (
           <div className="mt-2">
-            <p className="mb-2 text-xs text-[var(--foreground)]/70">
+            <p className="mb-2 text-xs text-zinc-400">
               {new Date(slotElegido.inicio).toLocaleString("es", {
                 dateStyle: "medium",
                 timeStyle: "short",
@@ -172,15 +172,15 @@ export function ChatWindow({
         )}
 
         {paso === "cita_creada" && (
-          <p className="mt-2 text-sm font-medium text-green-700 dark:text-green-400">
+          <p className="mt-2 text-sm font-medium text-green-400">
             Cita agendada correctamente.
           </p>
         )}
       </div>
 
       {error && (
-        <div className="border-t border-[var(--foreground)]/10 px-4 py-2">
-          <p className="text-sm text-red-600" role="alert">
+        <div className="border-t border-slate-600/40 px-4 py-2">
+          <p className="text-sm text-red-400" role="alert">
             {error}
           </p>
         </div>

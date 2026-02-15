@@ -33,7 +33,7 @@ export default function CitasPacientePage() {
   if (loading || !paciente) {
     return (
       <div className="py-8">
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
@@ -48,28 +48,28 @@ export default function CitasPacientePage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-semibold">Mis citas</h1>
+      <h1 className="mb-6 text-2xl font-semibold text-zinc-100">Mis citas</h1>
 
       <section className="mb-8">
-        <h2 className="mb-4 text-lg font-medium">Próximas citas</h2>
+        <h2 className="mb-4 text-lg font-medium text-zinc-100">Próximas citas</h2>
         {citasFuturas.length === 0 ? (
-          <p className="text-[var(--foreground)]/70">No tienes citas programadas.</p>
+          <p className="text-zinc-500">No tienes citas programadas.</p>
         ) : (
           <ul className="space-y-3">
             {citasFuturas.map((c) => (
               <li
                 key={c.id}
-                className="rounded border border-[var(--foreground)]/10 p-4"
+                className="rounded-xl border border-slate-600/40 bg-slate-800/80 p-4 shadow-lg shadow-black/20"
               >
-                <div className="font-medium">
+                <div className="font-medium text-zinc-100">
                   {(c.profesional as { nombre?: string })?.nombre ?? "Profesional"}
                   {(c.profesional as { especialidad?: string })?.especialidad && (
-                    <span className="ml-2 text-sm font-normal text-[var(--foreground)]/70">
+                    <span className="ml-2 text-sm font-normal text-zinc-400">
                       ({(c.profesional as { especialidad?: string }).especialidad})
                     </span>
                   )}
                 </div>
-                <div className="mt-1 text-sm text-[var(--foreground)]/80">
+                <div className="mt-1 text-sm text-zinc-400">
                   {new Date(c.inicio).toLocaleString("es-ES", {
                     dateStyle: "full",
                     timeStyle: "short",
@@ -82,20 +82,20 @@ export default function CitasPacientePage() {
       </section>
 
       <section>
-        <h2 className="mb-4 text-lg font-medium">Historial</h2>
+        <h2 className="mb-4 text-lg font-medium text-zinc-100">Historial</h2>
         {citasPasadas.length === 0 ? (
-          <p className="text-[var(--foreground)]/70">Sin citas anteriores.</p>
+          <p className="text-zinc-500">Sin citas anteriores.</p>
         ) : (
           <ul className="space-y-3">
             {citasPasadas.map((c) => (
               <li
                 key={c.id}
-                className="rounded border border-[var(--foreground)]/10 p-4 opacity-80"
+                className="rounded-xl border border-slate-600/40 bg-slate-800/60 p-4 opacity-90"
               >
-                <div className="font-medium">
+                <div className="font-medium text-zinc-100">
                   {(c.profesional as { nombre?: string })?.nombre ?? "Profesional"}
                 </div>
-                <div className="mt-1 text-sm text-[var(--foreground)]/80">
+                <div className="mt-1 text-sm text-zinc-400">
                   {new Date(c.inicio).toLocaleString("es-ES", {
                     dateStyle: "medium",
                     timeStyle: "short",

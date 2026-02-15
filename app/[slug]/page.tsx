@@ -140,22 +140,22 @@ export default function EnlacePublicoPage() {
 
   if (estado === "cargando" || (estado === "listo" && !profesional)) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--background)] px-4">
-        <p className="text-[var(--foreground)]/70">Cargando…</p>
+      <div className="flex min-h-screen items-center justify-center bg-black px-4">
+        <p className="text-zinc-500">Cargando…</p>
       </div>
     );
   }
 
   if (estado === "no-encontrado") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[var(--background)] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-4">
         <h1 className="text-xl font-semibold">Enlace no encontrado</h1>
-        <p className="text-[var(--foreground)]/70 text-center">
+        <p className="text-zinc-500 text-center">
           El enlace del profesional no existe o no está disponible.
         </p>
         <Link
           href="/"
-          className="rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+          className="rounded rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
         >
           Ir al inicio
         </Link>
@@ -165,15 +165,15 @@ export default function EnlacePublicoPage() {
 
   if (estado === "confirmacion" && citaCreada) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[var(--background)] px-4">
-        <div className="rounded-lg border border-[var(--foreground)]/10 bg-[var(--background)] p-6 shadow-sm text-center max-w-md">
-          <h1 className="mb-2 text-xl font-semibold text-green-700 dark:text-green-400">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-black px-4">
+        <div className="rounded-lg border border-slate-600/40 bg-black p-6 shadow-sm text-center max-w-md">
+          <h1 className="mb-2 text-xl font-semibold text-green-400">
             Cita confirmada
           </h1>
-          <p className="mb-4 text-[var(--foreground)]/80">
+          <p className="mb-4 text-zinc-100/80">
             Tu cita con {profesional?.nombre ?? "el profesional"} ha sido agendada.
           </p>
-          <p className="text-sm text-[var(--foreground)]/70">
+          <p className="text-sm text-zinc-500">
             {new Date(citaCreada.inicio).toLocaleString("es", {
               dateStyle: "full",
               timeStyle: "short",
@@ -181,7 +181,7 @@ export default function EnlacePublicoPage() {
           </p>
           <Link
             href="/paciente/citas"
-            className="mt-6 inline-block rounded bg-[var(--foreground)] px-4 py-2 text-[var(--background)] hover:opacity-90"
+            className="mt-6 inline-block rounded rounded-xl bg-blue-600 px-4 py-2 text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
           >
             Ver mis citas
           </Link>
@@ -196,21 +196,21 @@ export default function EnlacePublicoPage() {
   const redirectUrl = `/${slug}`;
 
   return (
-    <div className="min-h-screen bg-[var(--background)] px-4 py-8">
+    <div className="min-h-screen bg-black px-4 py-8">
       <div className="mx-auto max-w-lg">
         <header className="mb-8 text-center">
-          <h1 className="text-2xl font-semibold text-[var(--foreground)]">
+          <h1 className="text-2xl font-semibold text-zinc-100">
             {profesional.nombre ?? "Profesional"}
           </h1>
           {profesional.especialidad && (
-            <p className="mt-1 text-[var(--foreground)]/70">{profesional.especialidad}</p>
+            <p className="mt-1 text-zinc-500">{profesional.especialidad}</p>
           )}
-          <p className="mt-2 text-sm text-[var(--foreground)]/60">Agenda tu cita</p>
+          <p className="mt-2 text-sm text-zinc-500">Agenda tu cita</p>
           {isPaciente && chatDisponible && (
             <p className="mt-2">
               <Link
                 href={`/${slug}/chat`}
-                className="text-sm font-medium text-[var(--foreground)] underline hover:no-underline"
+                className="text-sm font-medium text-blue-500 hover:text-blue-400 hover:underline"
               >
                 Agendar por chat asistido
               </Link>
@@ -219,20 +219,20 @@ export default function EnlacePublicoPage() {
         </header>
 
         {!isPaciente && (
-          <div className="mb-6 rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4 text-center">
-            <p className="mb-3 text-sm text-[var(--foreground)]/80">
+          <div className="mb-6 rounded-lg border border-slate-600/40 bg-slate-800/80 p-4 text-center">
+            <p className="mb-3 text-sm text-zinc-400">
               Para agendar necesitas una cuenta de paciente.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href={`/registro?redirect=${encodeURIComponent(redirectUrl)}&role=paciente`}
-                className="rounded bg-[var(--foreground)] px-4 py-2 text-sm text-[var(--background)] hover:opacity-90"
+                className="rounded-xl bg-blue-600 px-4 py-2 text-sm text-white shadow-lg hover:bg-blue-500 hover:opacity-90"
               >
                 Registrarme
               </Link>
               <Link
                 href={`/login?redirect=${encodeURIComponent(redirectUrl)}`}
-                className="rounded border border-[var(--foreground)]/30 px-4 py-2 text-sm hover:bg-[var(--foreground)]/10"
+                className="rounded-xl border border-slate-600 px-4 py-2 text-sm text-zinc-100 hover:bg-slate-800"
               >
                 Ya tengo cuenta
               </Link>
@@ -243,7 +243,7 @@ export default function EnlacePublicoPage() {
         {isPaciente && (
           <section className="space-y-4">
             <div>
-              <label htmlFor="fecha" className="mb-1 block text-sm font-medium">
+              <label htmlFor="fecha" className="mb-1 block text-sm text-zinc-400">
                 Fecha
               </label>
               <input
@@ -252,17 +252,17 @@ export default function EnlacePublicoPage() {
                 min={fechaMin}
                 value={fechaSeleccionada}
                 onChange={(e) => setFechaSeleccionada(e.target.value)}
-                className="w-full rounded border border-[var(--foreground)]/20 bg-[var(--background)] px-3 py-2 text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--foreground)]/30"
+                className="w-full rounded-md border border-slate-600 bg-slate-900/80 px-3 py-2 text-zinc-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
 
             {fechaSeleccionada && (
               <div>
-                <label className="mb-1 block text-sm font-medium">Horario disponible</label>
+                <label className="mb-1 block text-sm text-zinc-400">Horario disponible</label>
                 {loadingSlots ? (
-                  <p className="py-4 text-sm text-[var(--foreground)]/60">Cargando horarios…</p>
+                  <p className="py-4 text-sm text-zinc-500">Cargando horarios…</p>
                 ) : slots.length === 0 ? (
-                  <p className="py-4 text-sm text-[var(--foreground)]/60">
+                  <p className="py-4 text-sm text-zinc-500">
                     No hay horarios disponibles este día.
                   </p>
                 ) : (
@@ -274,8 +274,8 @@ export default function EnlacePublicoPage() {
                           onClick={() => setSlotElegido(s)}
                           className={`w-full rounded border py-2 text-sm transition ${
                             slotElegido?.inicio === s.inicio
-                              ? "border-[var(--foreground)] bg-[var(--foreground)]/10"
-                              : "border-[var(--foreground)]/20 hover:bg-[var(--foreground)]/5"
+                              ? "border-blue-500 bg-blue-500/20"
+                              : "border-slate-600 hover:bg-slate-800/80"
                           }`}
                         >
                           {formatTime(new Date(s.inicio))}
@@ -289,7 +289,7 @@ export default function EnlacePublicoPage() {
 
             {slotElegido && (
               <div className="pt-2">
-                <p className="mb-2 text-sm text-[var(--foreground)]/70">
+                <p className="mb-2 text-sm text-zinc-500">
                   Horario elegido:{" "}
                   {new Date(slotElegido.inicio).toLocaleString("es", {
                     dateStyle: "medium",
@@ -300,7 +300,7 @@ export default function EnlacePublicoPage() {
                   type="button"
                   onClick={crearCita}
                   disabled={enviando}
-                  className="w-full rounded bg-[var(--foreground)] py-3 text-[var(--background)] hover:opacity-90 disabled:opacity-50"
+                  className="w-full rounded-xl bg-blue-600 py-3 text-white shadow-lg hover:bg-blue-500 hover:opacity-90 disabled:opacity-50"
                 >
                   {enviando ? "Confirmando…" : "Confirmar cita"}
                 </button>
@@ -308,7 +308,7 @@ export default function EnlacePublicoPage() {
             )}
 
             {mensajeError && (
-              <p className="text-sm text-red-600" role="alert">
+              <p className="text-sm text-red-400" role="alert">
                 {mensajeError}
               </p>
             )}

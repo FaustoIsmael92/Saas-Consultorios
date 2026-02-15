@@ -51,9 +51,9 @@ export function EstadoSuscripcionCard({ className = "" }: EstadoSuscripcionCardP
   if (loading) {
     return (
       <div
-        className={`rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4 ${className}`}
+        className={`rounded-xl border border-slate-600/40 bg-slate-800/80 p-4 shadow-lg shadow-black/20 ${className}`}
       >
-        <p className="text-sm text-[var(--foreground)]/60">Cargando estado de suscripción…</p>
+        <p className="text-sm text-zinc-500">Cargando estado de suscripción…</p>
       </div>
     );
   }
@@ -68,34 +68,32 @@ export function EstadoSuscripcionCard({ className = "" }: EstadoSuscripcionCardP
 
   return (
     <div
-      className={`rounded-lg border border-[var(--foreground)]/10 bg-[var(--foreground)]/5 p-4 ${className}`}
+      className={`rounded-xl border border-slate-600/40 bg-slate-800/80 p-4 shadow-lg shadow-black/20 ${className}`}
     >
-      <h2 className="mb-2 text-sm font-medium text-[var(--foreground)]/80">
+      <h2 className="mb-2 text-sm font-medium text-zinc-400">
         Estado de suscripción
       </h2>
       <div className="flex flex-wrap items-center gap-2">
         <span
           className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium ${
-            activa
-              ? "bg-green-500/20 text-green-700 dark:text-green-400"
-              : "bg-amber-500/20 text-amber-700 dark:text-amber-400"
+            activa ? "bg-green-500/20 text-green-400" : "bg-amber-500/20 text-amber-400"
           }`}
         >
           {activa ? "Activa" : "Inactiva"}
         </span>
         {suscripcion?.plan && (
-          <span className="text-sm text-[var(--foreground)]/70 capitalize">
+          <span className="text-sm capitalize text-zinc-400">
             Plan {suscripcion.plan}
           </span>
         )}
       </div>
       {suscripcion?.fecha_inicio && suscripcion?.fecha_fin && (
-        <p className="mt-2 text-xs text-[var(--foreground)]/60">
+        <p className="mt-2 text-xs text-zinc-500">
           Vigencia: {formatFecha(suscripcion.fecha_inicio)} – {formatFecha(suscripcion.fecha_fin)}
         </p>
       )}
       {!activa && (
-        <p className="mt-2 text-sm text-[var(--foreground)]/70">
+        <p className="mt-2 text-sm text-zinc-400">
           El chat asistido está deshabilitado mientras la suscripción esté inactiva. Contacta al
           administrador para activarla.
         </p>
