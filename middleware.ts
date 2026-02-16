@@ -12,10 +12,14 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return response;
+  }
+
+  try {
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
@@ -26,62 +30,59 @@ export async function middleware(request: NextRequest) {
           );
         },
       },
-    }
-  );
+    });
 
-  let role: string | null = null;
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("user_id", user.id)
-      .is("deleted_at", null)
-      .maybeSingle();
-    role = profile?.role ?? null;
-  }
+    let role: string | null = null;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("user_id", user.id)
+        .is("deleted_at", null)
+        .maybeSingle();
+      role = profile?.role ?? null;
+    }
 
-  // Rutas públicas: cualquiera puede pasar
-  if (esRutaPublica(pathname)) {
-    // Si ya está logueado, redirigir al dashboard según rol
-    if (role === "profesional") {
-      return NextResponse.redirect(new URL("/profesional/dashboard", request.url));
+    // Rutas públicas: cualquiera puede pasar
+    if (esRutaPublica(pathname)) {
+      if (role === "profesional") {
+        return NextResponse.redirect(new URL("/profesional/dashboard", request.url));
+      }
+      if (role === "paciente") {
+        return NextResponse.redirect(new URL("/paciente/dashboard", request.url));
+      }
+      return response;
     }
-    if (role === "paciente") {
-      return NextResponse.redirect(new URL("/paciente/dashboard", request.url));
+
+    if (!role) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
     }
+
+    if (esRutaProfesional(pathname)) {
+      if (role !== "profesional") {
+        const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
+        return NextResponse.redirect(new URL(redirectPath, request.url));
+      }
+      return response;
+    }
+
+    if (esRutaPaciente(pathname)) {
+      if (role !== "paciente") {
+        const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
+        return NextResponse.redirect(new URL(redirectPath, request.url));
+      }
+      return response;
+    }
+
+    return NextResponse.redirect(new URL("/login", request.url));
+  } catch {
     return response;
   }
-
-  // Sin sesión: ir a login
-  if (!role) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  // Protección por rol: profesional solo en /profesional/*
-  if (esRutaProfesional(pathname)) {
-    if (role !== "profesional") {
-      const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
-      return NextResponse.redirect(new URL(redirectPath, request.url));
-    }
-    return response;
-  }
-
-  // Protección por rol: paciente solo en /paciente/*
-  if (esRutaPaciente(pathname)) {
-    if (role !== "paciente") {
-      const redirectPath = isValidRole(role) ? rutaParaRol(role) : "/login";
-      return NextResponse.redirect(new URL(redirectPath, request.url));
-    }
-    return response;
-  }
-
-  // Cualquier otra ruta no pública sin rol válido → login
-  return NextResponse.redirect(new URL("/login", request.url));
 }
 
 export const config = {
