@@ -37,6 +37,7 @@ export async function PATCH(request: NextRequest) {
     const supabase = createAdminClient();
     const { data, error } = await supabase
       .from("suscripciones")
+      // @ts-expect-error -- Supabase infiere never en .update() con createClient<Database> en este entorno
       .update({
         estado: estado as "activa" | "inactiva",
         updated_at: new Date().toISOString(),

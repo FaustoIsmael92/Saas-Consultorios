@@ -85,7 +85,9 @@ export default function ChatsProfesionalPage() {
         return [...prev, nuevo];
       });
     });
-    return () => channel.unsubscribe();
+    return () => {
+      channel.unsubscribe();
+    };
   }, [chatSeleccionado?.id, supabase]);
 
   if (loadingProf || !profesional) {
